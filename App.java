@@ -118,9 +118,10 @@ class Matrix{
     public int getM() {
         return m;
     }
-    public Matrix transpose(){
+    public Matrix transpose(Matrix matrix){
         //implement the code here
-
+        
+        
         return null;
     }
     public void setElements(int[][] elements) {
@@ -206,6 +207,44 @@ class SquareMatrix extends Matrix{
     }
 
     }
+    public void transpose(){
+        int mat1[][] = super.getElements();
+        int transpose[][]=new int[super.getM()][super.getN()];  //3 rows and 3 columns  
+            
+        //Code to transpose a matrix  
+        for(int i=0;i<super.getN();i++){    
+        for(int j=0;j<super.getM();j++){    
+        transpose[i][j]=mat1[j][i];  
+        }    
+        }    
+        
+            
+        System.out.println("Required Transpose:");  
+        for(int i=0;i<super.getN();i++){    
+        for(int j=0;j<super.getM();j++){    
+        System.out.print(transpose[i][j]+" ");    
+        }    
+        System.out.println();//new line    
+        } 
+        
+        
+    }
+    // public void sum_transpose(){
+    //     int[][] b = transpose();
+    //     int[][] a = this.getElements();
+    //     int[][] res = new int[super.getN()][super.getM()];
+    //     for(int i=0;i<super.getN();i++){    
+    //         for(int j=0;j<super.getM();j++){    
+    //         res[i][j]=a[i][j]+b[i][j];      
+    //         System.out.print(res[i][j]+" ");    
+    //         }    
+    //         System.out.println();//new line    
+    //         }     
+        
+
+        
+        
+    // }
 
     public int getDeterminant(){
         //implement code here
@@ -215,7 +254,7 @@ class SquareMatrix extends Matrix{
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
+     
         return super.toString() + "Square type";
     }
 }
@@ -244,9 +283,10 @@ public class App {
         ArrayList<Matrix> mat = new ArrayList<Matrix>();
         int choice=0;
         
-        while(choice!=11){
+        while(choice!=12){
     
         System.out.println("");
+        System.out.println("---------------Welcome to Matrix Calculator---------------");
         System.out.println("1. To Add Matrix in a List ");
         System.out.println("2. Matrix Type by ID");
         System.out.println("3. Find inverse by using ID "); 
@@ -256,18 +296,22 @@ public class App {
         System.out.println("7. Divide two Matrix by using ID ");
         System.out.println("8. Elements wise operation by using ID ");
         System.out.println("9. Find Transpose of Matrix by using ID ");
-        System.out.println("10. Find determinant of Matrix using ID ");
-        System.out.println("11.Exit");
+        System.out.println("10.Find determinant of Matrix using ID ");
+        System.out.println("11.Find A+AT using ID ");
+        System.out.println("12.Exit");
+        System.out.println("------------------------*************---------------------");
+        System.out.println("Select Serial Number to proceed further :)");
+        System.out.println("------------------------*************---------------------");
 
         Scanner s = new Scanner(System.in);
         choice = s.nextInt();
         if(choice == 1){
-        String answer = "y";
-        //int input = s.nextInt();
+        String answer = "yes";
+       
         while (answer.equals(answer)) {
             System.out.println("Want to add Matrix?");
             answer = s.next();
-            if(!answer.equals("y")){
+            if(!answer.equals("yes")){
                 break;
             }
             System.out.println("Enter Matrix ID: ");
@@ -304,7 +348,7 @@ public class App {
         }
 
         }
-        if(choice == 2){
+        if(choice == 2) {
             System.out.println("Enter ID of the matrix");
             int a = s.nextInt();
             System.out.println(mat.get(a-1));
@@ -322,21 +366,7 @@ public class App {
             }
 
         }
-        if(choice == 6){
-            System.out.println("Enter the first Matrix ID:");
-            String id1 =  s.next();
-            System.out.println("Enter second Matrix ID:");
-            String id2 = s.next();
-
-            Matrix m1 = getMatrixByID(mat, id1);
-            Matrix m2 = getMatrixByID(mat, id2);
-
-            m1.multiply(m2);
-            // System.out.println("Enter ID of the matrix");
-            // int a1 = s.nextInt();
-
-
-        }
+        
         if (choice ==4){
             System.out.println("Enter the first Matrix ID:");
             String id1 =  s.next();
@@ -355,6 +385,17 @@ public class App {
             Matrix m2 = getMatrixByID(mat, id2);
             m1.sub(m2);
         }
+        if(choice == 6){
+            System.out.println("Enter the first Matrix ID:");
+            String id1 =  s.next();
+            System.out.println("Enter second Matrix ID:");
+            String id2 = s.next();
+
+            Matrix m1 = getMatrixByID(mat, id1);
+            Matrix m2 = getMatrixByID(mat, id2);
+
+            m1.multiply(m2);
+        }
         if(choice==7){
             System.out.println("Enter the first Matrix ID:");
             String id1 =  s.next();
@@ -364,22 +405,43 @@ public class App {
             Matrix m2 = getMatrixByID(mat, id2);
             m1.div(m2);
         }
+        if(choice == 9){
+            System.out.println("Enter ID of the matrix");
+            String id = s.next();
+            Matrix matrix = getMatrixByID(mat, id);
+            if (matrix instanceof SquareMatrix square) {
+                square.transpose();
+            } else {
+                System.out.println("Not possible");
+            }
+        
+            
+
+        }
         if (choice == 10) {
             System.out.println("Enter Matrix ID:");
             String id = s.next();
             Matrix matrix = getMatrixByID(mat, id);
             if (matrix instanceof SquareMatrix square) {
                System.out.println("Determinant = " + square.getDeterminant());
+
             }
         }
-        // if(answer.equals('n')){
-        //     continue;
-        // }
+    //     if(choice == 11){
+    //         System.out.println("Enter Matrix ID:");
+    //         String id = s.next();
+    //         Matrix matrix = getMatrixByID(mat, id);
+    //         if (matrix instanceof SquareMatrix square) {
+                
+    //         } else {
+    //             System.out.println("Not possible");
+    //         }
             
-            // System.out.println("Test multiplication");
-            
-        
-    }    
+
+    //     // }
+       
+    // }    
         
     }
+    
 }
