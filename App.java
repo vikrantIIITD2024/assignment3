@@ -60,8 +60,8 @@ class Matrix{
         int array1[][]=this.getElements();
         
         System.out.println("First matrix is:" + " " );
-        for(int i=0; i< array.length; i++){
-        for (int j=0; j<3; j++)
+        for(int i=0; i< this.n; i++){
+        for (int j=0; j<this.m; j++)
         {
         System.out.print(" " +array[i][j]);
         }
@@ -69,15 +69,15 @@ class Matrix{
         }
         
         System.out.println("Second matrix is:"+ " ");
-        for (int i=0; i< array1.length; i++){
-        for(int j=0; j<3; j++){
+        for (int i=0; i< this.n; i++){
+        for(int j=0; j<this.m; j++){
         System.out.print(" " + array1[i][j]);
         }
         System.out.println();
         }
         System.out.println("Divide of both matrix : ");
-        for(int i = 0; i < array1.length; i++) {
-        for(int j = 0; j <= array1.length; j++) {
+        for(int i = 0; i < this.n; i++) {
+        for(int j = 0; j < this.m; j++) {
         System.out.print(" "+(array[i][j]/array1[i][j]));
         }
         System.out.println(" ");
@@ -354,6 +354,15 @@ public class App {
             Matrix m1 = getMatrixByID(mat, id1);
             Matrix m2 = getMatrixByID(mat, id2);
             m1.sub(m2);
+        }
+        if(choice==7){
+            System.out.println("Enter the first Matrix ID:");
+            String id1 =  s.next();
+            System.out.println("Enter second Matrix ID:");
+            String id2 = s.next();
+            Matrix m1 = getMatrixByID(mat, id1);
+            Matrix m2 = getMatrixByID(mat, id2);
+            m1.div(m2);
         }
         if (choice == 10) {
             System.out.println("Enter Matrix ID:");
