@@ -2,6 +2,9 @@ import java.util.ArrayList;
 
 import java.util.Scanner;
 
+import javax.sound.sampled.SourceDataLine;
+import javax.swing.plaf.synth.SynthOptionPaneUI;
+
 
 class Matrix{
 
@@ -26,7 +29,7 @@ class Matrix{
         int[][] res = new int[n][m];
         for(int i=0;i<n;i++){    
             for(int j=0;j<m;j++){    
-            res[i][j]=a[i][j]+b[i][j];    //use - for subtraction  
+            res[i][j]=a[i][j]+b[i][j];      
             System.out.print(res[i][j]+" ");    
             }    
             System.out.println();//new line    
@@ -37,34 +40,48 @@ class Matrix{
     }
 
     public Matrix sub(Matrix matrix){
-        Scanner in = new Scanner(System.in);
-        int mat1[][] = new int[2][2];
-        int mat2[][] = new int[2][2];
-        int sub[][] = new int[2][2];
-        int i,j;
-        for (i = 0; i < 2; i++)
-        {
-        for (j = 0; j < 2; j++)
-        {
-        mat1[i][j] = in.nextInt();
-        mat2[i][j] = in.nextInt();
-        sub[i][j]=mat1[i][j]-mat2[i][j];
-        }
-        }
-        for (i = 0; i < 2; i++)
-        {
-        for (j = 0; j < 2; j++)
-        {
-        System.out.print(sub[i][j]+"\t");
-        }
-        System.out.println();
-        }
+        
+        int[][] b = matrix.getElements();
+        int[][] a = this.getElements();
+        int[][] res = new int[n][m];
+        for(int i=0;i<n;i++){    
+            for(int j=0;j<m;j++){    
+            res[i][j]=a[i][j]-b[i][j];  
+            System.out.print(res[i][j]+" ");    
+            }    
+            System.out.println();//new line    
+            }     
 
         return null;
     }
 
     public Matrix div(Matrix matrix){
-
+        int array[][]=matrix.getElements();
+        int array1[][]=this.getElements();
+        
+        System.out.println("First matrix is:" + " " );
+        for(int i=0; i< array.length; i++){
+        for (int j=0; j<3; j++)
+        {
+        System.out.print(" " +array[i][j]);
+        }
+        System.out.println();
+        }
+        
+        System.out.println("Second matrix is:"+ " ");
+        for (int i=0; i< array1.length; i++){
+        for(int j=0; j<3; j++){
+        System.out.print(" " + array1[i][j]);
+        }
+        System.out.println();
+        }
+        System.out.println("Divide of both matrix : ");
+        for(int i = 0; i < array1.length; i++) {
+        for(int j = 0; j <= array1.length; j++) {
+        System.out.print(" "+(array[i][j]/array1[i][j]));
+        }
+        System.out.println(" ");
+        }
         return null;
     }
     
@@ -162,47 +179,38 @@ class SquareMatrix extends Matrix{
     }
 
     
-    public Matrix inverse(){
+    public void inverse(){
         //implement the code here
 
        
         float det, temp;
-        float mat[][] = new float[2][2];
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter elements of matrix row wise:");
-        for(int i = 0; i < 2; ++i)
-        for(int j = 0; j < 2; ++j)
-        mat[i][j] = sc.nextFloat();
-        det = (mat[0][0] * mat[1][1]) - (mat[0][1] * mat[1][0]);
-        System.out.println("\ndeterminant = " + det);
-        temp = mat[0][0];
-        mat[0][0] = mat[1][1];
-        mat[1][1] = temp;
-        mat[0][1] = - mat[0][1];
-        mat[1][0] = - mat[1][0];
-        System.out.println("\nInverse of matrix is:");
-        for(int i = 0; i < 2; ++i) {
-        for(int j = 0; j < 2; ++j)
-        System.out.print((mat[i][j]/det) + " ");
-        System.out.print("\n");
+        int mat[][] = super.getElements();
+
+        //for square 2x2 matrix
+        
+       if (super.getN() == super.getM() && super.getN() == 2) {
+        
+            det = this.getDeterminant();
+            temp = mat[0][0];
+            mat[0][0] = mat[1][1];
+            mat[1][1] = (int)temp;
+            mat[0][1] = - mat[0][1];
+            mat[1][0] = - mat[1][0];
+
+            System.out.println("\nInverse of matrix is:");
+            for(int i = 0; i < super.getN(); ++i) {
+            for(int j = 0; j < super.getM(); ++j)
+            System.out.print((mat[i][j]/det) + " ");
+            System.out.print("\n");
+       } 
     }
 
-        return null;
     }
 
     public int getDeterminant(){
         //implement code here
-        float det, temp;
-        float mat[][] = new float[2][2];
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter elements of matrix row wise:");
-        for(int i = 0; i < 2; ++i)
-        for(int j = 0; j < 2; ++j)
-        mat[i][j] = sc.nextFloat();
-        det = (mat[0][0] * mat[1][1]) - (mat[0][1] * mat[1][0]);
-        System.out.println("\nDeterminant = " + det);
-
-        return 0;
+       
+        return  (super.getN() == 2 && super.getM() == 2) ? (super.getElements()[0][0] * super.getElements()[1][1]) - (super.getElements()[0][1] * super.getElements()[1][0]): 0;
     }
 
     @Override
@@ -221,7 +229,6 @@ class RectangularMatrix extends Matrix {
 
 
 
-
 public class App {
 
     public static Matrix getMatrixByID(ArrayList<Matrix> matrixs, String id) {
@@ -233,26 +240,36 @@ public class App {
         return null;
     }
     public static void main(String[] args) throws Exception {
-
+        
         ArrayList<Matrix> mat = new ArrayList<Matrix>();
-        System.out.println("1. To Add Matrix: ");
-        System.out.println("2. Matrix Type: ");
-        System.out.println("3. Find inverse by using ID: "); 
-        System.out.println("4. Add two Matrix by using ID: ");
-        System.out.println("5. Subtract two Matrix by using ID: ");
-        System.out.println("6. Multiply two Matrix by using ID: ");
-        System.out.println("7. Divide two Matrix by using ID: ");
-        System.out.println("8. Elements wise operation by using ID: ");
-        System.out.println("9. Find Transpose of Matrix by using ID: ");
-        System.out.println("10. ");
+        int choice=0;
+        
+        while(choice!=11){
+    
+        System.out.println("");
+        System.out.println("1. To Add Matrix in a List ");
+        System.out.println("2. Matrix Type by ID");
+        System.out.println("3. Find inverse by using ID "); 
+        System.out.println("4. Add two Matrix by using ID ");
+        System.out.println("5. Subtract two Matrix by using ID ");
+        System.out.println("6. Multiply two Matrix by using ID ");
+        System.out.println("7. Divide two Matrix by using ID ");
+        System.out.println("8. Elements wise operation by using ID ");
+        System.out.println("9. Find Transpose of Matrix by using ID ");
+        System.out.println("10. Find determinant of Matrix using ID ");
+        System.out.println("11.Exit");
 
         Scanner s = new Scanner(System.in);
+        choice = s.nextInt();
+        if(choice == 1){
         String answer = "y";
         //int input = s.nextInt();
         while (answer.equals(answer)) {
             System.out.println("Want to add Matrix?");
             answer = s.next();
-
+            if(!answer.equals("y")){
+                break;
+            }
             System.out.println("Enter Matrix ID: ");
             String _id = s.next();
             System.out.println("Enter the number of rows");
@@ -283,10 +300,29 @@ public class App {
                 mat.add(rectangularMatrix);
                 
             }
+
+        }
+
+        }
+        if(choice == 2){
+            System.out.println("Enter ID of the matrix");
+            int a = s.nextInt();
+            System.out.println(mat.get(a-1));
+            System.out.println(" ");
+        }
+
+        if (choice == 3) {
+            System.out.println("Enter ID of the matrix");
+            String id = s.next();
+            Matrix matrix = getMatrixByID(mat, id);
+            if (matrix instanceof SquareMatrix square) {
+                square.inverse();
+            } else {
+                System.out.println("Matrix must be square");
             }
 
-            
-            System.out.println("Test multiplication");
+        }
+        if(choice == 6){
             System.out.println("Enter the first Matrix ID:");
             String id1 =  s.next();
             System.out.println("Enter second Matrix ID:");
@@ -296,8 +332,45 @@ public class App {
             Matrix m2 = getMatrixByID(mat, id2);
 
             m1.multiply(m2);
+            // System.out.println("Enter ID of the matrix");
+            // int a1 = s.nextInt();
+
+
+        }
+        if (choice ==4){
+            System.out.println("Enter the first Matrix ID:");
+            String id1 =  s.next();
+            System.out.println("Enter second Matrix ID:");
+            String id2 = s.next();
+            Matrix m1 = getMatrixByID(mat, id1);
+            Matrix m2 = getMatrixByID(mat, id2);
+            m1.add(m2);
+        }
+        if(choice == 5){
+            System.out.println("Enter the first Matrix ID:");
+            String id1 =  s.next();
+            System.out.println("Enter second Matrix ID:");
+            String id2 = s.next();
+            Matrix m1 = getMatrixByID(mat, id1);
+            Matrix m2 = getMatrixByID(mat, id2);
+            m1.sub(m2);
+        }
+        if (choice == 10) {
+            System.out.println("Enter Matrix ID:");
+            String id = s.next();
+            Matrix matrix = getMatrixByID(mat, id);
+            if (matrix instanceof SquareMatrix square) {
+               System.out.println("Determinant = " + square.getDeterminant());
+            }
+        }
+        // if(answer.equals('n')){
+        //     continue;
+        // }
             
+            // System.out.println("Test multiplication");
             
+        
+    }    
         
     }
 }
