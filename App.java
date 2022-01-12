@@ -229,22 +229,7 @@ class SquareMatrix extends Matrix{
         
         
     }
-    // public void sum_transpose(){
-    //     int[][] b = transpose();
-    //     int[][] a = this.getElements();
-    //     int[][] res = new int[super.getN()][super.getM()];
-    //     for(int i=0;i<super.getN();i++){    
-    //         for(int j=0;j<super.getM();j++){    
-    //         res[i][j]=a[i][j]+b[i][j];      
-    //         System.out.print(res[i][j]+" ");    
-    //         }    
-    //         System.out.println();//new line    
-    //         }     
-        
 
-        
-        
-    // }
 
     public int getDeterminant(){
         //implement code here
