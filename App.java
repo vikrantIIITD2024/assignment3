@@ -427,20 +427,7 @@ public class App {
 
             }
         }
-    //     if(choice == 11){
-    //         System.out.println("Enter Matrix ID:");
-    //         String id = s.next();
-    //         Matrix matrix = getMatrixByID(mat, id);
-    //         if (matrix instanceof SquareMatrix square) {
-                
-    //         } else {
-    //             System.out.println("Not possible");
-    //         }
-            
-
-    //     // }
-       
-    // }    
+ 
         
     }
     
